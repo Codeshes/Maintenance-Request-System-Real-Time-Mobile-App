@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "989673809609",
+    "project_id": "maintenance-request-syst-e3052",
+    "storage_bucket": "maintenance-request-syst-e3052.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989673809609:android:e21c863daba3c430a1cf18",
+        "android_client_info": {
+          "package_name": "com.example.maintenancerequestsystemreal_timemobileapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACA2krF3Twidg-Sf8Ydpalaibo4QoKgBc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.maintenancerequestsystemreal_timemobileapp" />
+                  <option name="mobileSdkAppId" value="1:989673809609:android:e21c863daba3c430a1cf18" />
+                  <option name="projectId" value="maintenance-request-syst-e3052" />
+                  <option name="projectNumber" value="989673809609" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
