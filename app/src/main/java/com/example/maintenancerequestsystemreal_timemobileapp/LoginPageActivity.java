@@ -32,6 +32,10 @@ public class LoginPageActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_page);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         login_userName = findViewById(R.id.username);
         login_userPassword = findViewById(R.id.password);
         loginButton = findViewById(R.id.btnLogin);
