@@ -1,7 +1,10 @@
 package com.example.maintenancerequestsystemreal_timemobileapp;
 
 public class HelperClassLoginSignup {
-    String name, email, username, password;
+    private String name;
+    private String email;
+    private String username;
+    private String password;
 
 
     public HelperClassLoginSignup(String name, String email, String username, String password) {

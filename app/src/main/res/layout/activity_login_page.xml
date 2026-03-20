@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="@drawable/bg_loginpage"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="50dp"
     tools:context=".LoginPageActivity">
 
     <LinearLayout
@@ -14,20 +14,24 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_margin="25dp">
+        android:layout_marginTop="55dp"
+        android:padding="20dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome! Back 👋"
+            android:text="Welcome Back! 👋"
+            android:textColor="@color/white"
             android:layout_marginTop="30dp"
-            android:textSize="25sp"
+            android:textSize="35sp"
             android:textStyle="bold"/>
         
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign in to continue"/>
+            android:text="Sign in to continue"
+            android:textColor="@color/white"
+            android:textSize="14sp"/>
         
         
         <androidx.cardview.widget.CardView
@@ -41,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/white"
                 android:layout_gravity="center"
                 android:padding="15dp">
 

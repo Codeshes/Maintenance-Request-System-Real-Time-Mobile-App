@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     android:layout_marginTop="50dp"
     tools:context=".SignUpPageActivity">
@@ -69,6 +70,7 @@
                     android:id="@+id/signupEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:inputType="textEmailAddress"
                     android:background="@drawable/custom_edittext"
                     android:padding="8dp"
                     android:drawableLeft="@drawable/outline_attach_email_24"
@@ -119,6 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Already have an account? Login"
+                    android:layout_marginTop="20dp"
                     android:textColor="@color/purple"
                     android:gravity="center"
                     android:textSize="14sp"/>
