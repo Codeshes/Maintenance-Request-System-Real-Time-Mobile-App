@@ -44,6 +44,11 @@ public class SignUpPageActivity extends AppCompatActivity {
             String email = signupEmail.getText().toString().trim();
             String username = signupUsername.getText().toString().trim();
             String password = signupPassword.getText().toString().trim();
+
+            if (name.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Field cannot be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
             
             HelperClassLoginSignup helperClass = new HelperClassLoginSignup(name, email, username, password);
             reference.child(name).setValue(helperClass);
