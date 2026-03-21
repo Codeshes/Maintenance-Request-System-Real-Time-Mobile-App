@@ -26,6 +26,6 @@ public class RequestActivity extends AppCompatActivity {
 
         tb = findViewById(R.id.toolbar);
 
-        tb.setNavigationOnClickListener(v -> {finish();});
+        tb.setNavigationOnClickListener(v -> finish());
     }
 }
