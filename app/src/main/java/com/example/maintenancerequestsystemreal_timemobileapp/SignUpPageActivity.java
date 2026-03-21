@@ -44,13 +44,22 @@ public class SignUpPageActivity extends AppCompatActivity {
             String email = signupEmail.getText().toString().trim();
             String username = signupUsername.getText().toString().trim();
             String password = signupPassword.getText().toString().trim();
-            
-            HelperClassLoginSignup helperClass = new HelperClassLoginSignup(name, email, username, password);
-            reference.child(name).setValue(helperClass);
 
-            Toast.makeText(this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SignUpPageActivity.this, LoginPageActivity.class);
-            startActivity(intent);
+            if (name.isEmpty()) {
+                signupName.setError("Name required.");
+            } else if (email.isEmpty()) {
+                signupEmail.setError("Email required.");
+            } else if (username.isEmpty()) {
+                signupUsername.setError("Username required.");
+            } else if (password.isEmpty()) {
+                signupPassword.setError("Password required.");
+            } else {
+                HelperClassLoginSignup helperClass = new HelperClassLoginSignup(name, email, username, password);
+                reference.child(name).setValue(helperClass);
+                Toast.makeText(this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpPageActivity.this, LoginPageActivity.class);
+                startActivity(intent);
+            }
         });
 
         loginRedirectText.setOnClickListener(v -> {
