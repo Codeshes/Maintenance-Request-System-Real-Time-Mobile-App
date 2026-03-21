@@ -37,8 +37,9 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="25dp"
-            app:cardCornerRadius="30dp"
+            android:layout_marginTop="40dp"
+            android:padding="20dp"
+            app:cardCornerRadius="25dp"
             app:cardElevation="20sp">
 
             <LinearLayout
@@ -47,7 +48,7 @@
                 android:orientation="vertical"
                 android:background="@color/white"
                 android:layout_gravity="center"
-                android:padding="15dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -58,6 +59,12 @@
                     android:textStyle="bold"
                     android:textColor="@color/purple" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/cardview_dark_background"/>
+
                 <EditText
                     android:id="@+id/username"
                     android:layout_width="match_parent"
@@ -67,9 +74,10 @@
                     android:drawableLeft="@drawable/outline_alternate_email_24"
                     android:drawablePadding="10dp"
                     android:hint="Username"
+                    android:inputType="textPersonName"
                     android:textColor="@color/black"
                     android:textColorHighlight="@color/cardview_dark_background"
-                    android:layout_marginTop="40dp"/>
+                    android:layout_marginTop="10dp"/>
 
                 <EditText
                     android:id="@+id/password"
@@ -94,21 +102,23 @@
                     android:backgroundTint="@color/lightblue"
                     app:cornerRadius="20dp"/>
 
+                <TextView
+                    android:id="@+id/signUpRedirectPage"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Not yet registered? Signup Now"
+                    android:textSize="14sp"
+                    android:textColor="@color/purple"
+                    android:layout_marginTop="20dp"/>
+
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/signUpRedirectPage"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Not yet registered? Signup Now"
-            android:textSize="14sp"
-            android:textColor="@color/purple"
-            android:layout_marginBottom="20dp"/>
+
         
     </LinearLayout>
 
