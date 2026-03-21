@@ -47,12 +47,16 @@ public class SignUpPageActivity extends AppCompatActivity {
 
             if (name.isEmpty()) {
                 signupName.setError("Name required.");
+                signupName.requestFocus();
             } else if (email.isEmpty()) {
                 signupEmail.setError("Email required.");
+                signupEmail.requestFocus();
             } else if (username.isEmpty()) {
                 signupUsername.setError("Username required.");
+                signupUsername.requestFocus();
             } else if (password.isEmpty()) {
                 signupPassword.setError("Password required.");
+                signupPassword.requestFocus();
             } else {
                 HelperClassLoginSignup helperClass = new HelperClassLoginSignup(name, email, username, password);
                 reference.child(name).setValue(helperClass);
