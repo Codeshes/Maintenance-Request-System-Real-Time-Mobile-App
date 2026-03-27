@@ -55,7 +55,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRequestTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext_requestactivity"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -68,7 +69,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLocation"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_edittext_requestactivity"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +85,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
-                    android:lines="4" />
+                    android:lines="4"
+                    android:background="@drawable/custom_edittext_requestactivity"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
