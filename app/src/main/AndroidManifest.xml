@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaintenanceRequestSystemRealTimeMobileApp">
         <activity
+            android:name=".front_page"
+            android:exported="false" />
+        <activity
             android:name=".RequestActivity"
             android:exported="false" />
         <activity
