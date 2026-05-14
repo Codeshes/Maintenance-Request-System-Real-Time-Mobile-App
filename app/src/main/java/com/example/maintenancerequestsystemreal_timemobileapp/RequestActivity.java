@@ -92,7 +92,10 @@ public class RequestActivity extends AppCompatActivity {
                         imageUri = uri;
                         imgPreview.setImageURI(uri);
                         cardImagePreview.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, "Image Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,
+                                "Image Selected",
+                                Toast.LENGTH_SHORT)
+                                .show();
                     }
                 }
         );
