@@ -4,14 +4,18 @@ public class HelperClassRequest {
     private String issueTitle;
     private String location;
     private String description;
-    private String issueImage;
+    private String imageUrl;
+
+    public HelperClassRequest() {
+        // Empty constructor for firebase
+    }
 
 
-    public HelperClassRequest(String issueTitle, String location, String description, String issueImage) {
+    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl) {
         this.issueTitle = issueTitle;
         this.location = location;
         this.description = description;
-        this.issueImage = issueImage;
+        this.imageUrl = imageUrl;
     }
 
     public String getIssueTitle() {
@@ -39,10 +43,10 @@ public class HelperClassRequest {
     }
 
     public String getIssueImage() {
-        return issueImage;
+        return imageUrl;
     }
 
-    public void setIssueImage(String issueImage) {
-        this.issueImage = issueImage;
+    public void setIssueImage(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
