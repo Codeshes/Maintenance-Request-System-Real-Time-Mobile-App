@@ -2,15 +2,22 @@ package com.example.maintenancerequestsystemreal_timemobileapp;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.view.View;
 import android.widget.Toast;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,97 +26,191 @@ import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RequestActivity extends AppCompatActivity {
 
     Toolbar tb;
     EditText etRequestTitle, etLocation, etDescription;
-    Button btnSubmitRequest, btnSelectImage;
+    Button btnSubmitRequest, btnUploadImage;
     DatabaseReference dataBaseReference;
 
-    Uri imageUri;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
-
-    HelperClassRequest helperClassRequest;
+    ImageView imgPreview;
+    CardView cardImagePreview;
 
     ProgressBar progressBar;
+
+    Uri imageUri;
+
+    ActivityResultLauncher<String> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_request);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        View mainView = findViewById(R.id.main);
+        if (mainView != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                return insets;
+            });
+        }
+
         tb = findViewById(R.id.toolbar);
         tb.setNavigationOnClickListener(v -> finish());
 
         etRequestTitle = findViewById(R.id.etRequestTitle);
         etLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
+
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
-        btnSelectImage = findViewById(R.id.btnUploadImage);
+        btnUploadImage = findViewById(R.id.btnUploadImage);
+
+        imgPreview = findViewById(R.id.imgPreview);
+        cardImagePreview = findViewById(R.id.cardImagePreview);
 
         progressBar = findViewById(R.id.progressBar);
 
+        initCloudinary();
 
-        btnSubmitRequest.setOnClickListener(v -> {
+        dataBaseReference = FirebaseDatabase.getInstance().getReference("requests");
 
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        imageUri = uri;
+                        imgPreview.setImageURI(uri);
+                        cardImagePreview.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, "Image Selected", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
 
-            progressBar.setVisibility(View.VISIBLE);
-            btnSubmitRequest.setEnabled(false);
+        btnUploadImage.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
 
-            MediaManager.get().upload(imageUri)
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
+        btnSubmitRequest.setOnClickListener(v -> validateAndUpload());
+    }
 
-                        }
+    private void validateAndUpload() {
 
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
+        String title = etRequestTitle.getText().toString().trim();
+        String location = etLocation.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
 
-                        }
+        if (title.isEmpty()) {
+            etRequestTitle.setError("Required");
+            return;
+        }
 
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
+        if (location.isEmpty()) {
+            etLocation.setError("Required");
+            return;
+        }
 
-                            progressBar.setVisibility(View.GONE);
-                            btnSubmitRequest.setEnabled(true);
+        if (description.isEmpty()) {
+            etDescription.setError("Required");
+            return;
+        }
 
-                            Toast.makeText(RequestActivity.this,
-                                    "Request Submitted",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+        if (imageUri == null) {
+            Toast.makeText(this, "Select image", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            progressBar.setVisibility(View.GONE);
-                            btnSubmitRequest.setEnabled(true);
+        uploadToCloudinary();
+    }
 
-                            Toast.makeText(RequestActivity.this,
-                                    "Upload failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+    private void uploadToCloudinary() {
 
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
+        progressBar.setVisibility(View.VISIBLE);
+        btnSubmitRequest.setEnabled(false);
 
-                        }
-                    })
-                    .dispatch();
+        MediaManager.get().upload(imageUri)
+                .unsigned("IMAGE_STORAGE_CLOUDINARY")
+                .callback(new UploadCallback() {
 
+                    @Override
+                    public void onStart(String requestId) {}
 
-        });
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {}
 
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
 
+                        String imageUrl = resultData.get("secure_url").toString();
+
+                        saveToFirebase(imageUrl);
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+
+                        progressBar.setVisibility(View.GONE);
+                        btnSubmitRequest.setEnabled(true);
+
+                        Toast.makeText(RequestActivity.this,
+                                error.getDescription(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {}
+                })
+                .dispatch();
+    }
+
+    private void saveToFirebase(String imageUrl) {
+
+        String title = etRequestTitle.getText().toString().trim();
+        String location = etLocation.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
+
+        String id = dataBaseReference.push().getKey();
+
+        HelperClassRequest request = new HelperClassRequest(
+                title,
+                location,
+                description,
+                imageUrl
+        );
+
+        dataBaseReference.child(id).setValue(request)
+                .addOnSuccessListener(unused -> {
+
+                    progressBar.setVisibility(View.GONE);
+                    btnSubmitRequest.setEnabled(true);
+
+                    Toast.makeText(this, "Request Uploaded", Toast.LENGTH_SHORT).show();
+                    clearFields();
+                })
+                .addOnFailureListener(e -> {
+
+                    progressBar.setVisibility(View.GONE);
+                    btnSubmitRequest.setEnabled(true);
+
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void initCloudinary() {
+        Map config = new HashMap();
+        config.put("cloud_name", "dlytd1gjp");
+        MediaManager.init(this, config);
+    }
+
+    private void clearFields() {
+        etRequestTitle.setText("");
+        etLocation.setText("");
+        etDescription.setText("");
+        imageUri = null;
+        cardImagePreview.setVisibility(View.GONE);
     }
 }
