@@ -79,10 +79,14 @@ public class RequestActivity extends AppCompatActivity {
 
         initCloudinary();
 
-        dataBaseReference = FirebaseDatabase.getInstance().getReference("requests");
+        dataBaseReference =
+                FirebaseDatabase.
+                        getInstance()
+                        .getReference("requests");
 
         imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
+                new ActivityResultContracts
+                        .GetContent(),
                 uri -> {
                     if (uri != null) {
                         imageUri = uri;
@@ -100,9 +104,12 @@ public class RequestActivity extends AppCompatActivity {
 
     private void validateAndUpload() {
 
-        String title = etRequestTitle.getText().toString().trim();
-        String location = etLocation.getText().toString().trim();
-        String description = etDescription.getText().toString().trim();
+        String title =
+                etRequestTitle.getText().toString().trim();
+        String location =
+                etLocation.getText().toString().trim();
+        String description =
+                etDescription.getText().toString().trim();
 
         if (title.isEmpty()) {
             etRequestTitle.setError("Required");
@@ -120,7 +127,10 @@ public class RequestActivity extends AppCompatActivity {
         }
 
         if (imageUri == null) {
-            Toast.makeText(this, "Select image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "Select image",
+                    Toast.LENGTH_SHORT)
+                    .show();
             return;
         }
 
@@ -137,15 +147,22 @@ public class RequestActivity extends AppCompatActivity {
                 .callback(new UploadCallback() {
 
                     @Override
-                    public void onStart(String requestId) {}
+                    public void onStart(String requestId) {
+
+                    }
 
                     @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {}
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+
+                    }
 
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
 
-                        String imageUrl = resultData.get("secure_url").toString();
+                        String imageUrl =
+                                resultData
+                                        .get("secure_url")
+                                        .toString();
 
                         saveToFirebase(imageUrl);
                     }
@@ -162,16 +179,21 @@ public class RequestActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {}
+                    public void onReschedule(String requestId, ErrorInfo error) {
+
+                    }
                 })
                 .dispatch();
     }
 
     private void saveToFirebase(String imageUrl) {
 
-        String title = etRequestTitle.getText().toString().trim();
-        String location = etLocation.getText().toString().trim();
-        String description = etDescription.getText().toString().trim();
+        String title =
+                etRequestTitle.getText().toString().trim();
+        String location =
+                etLocation.getText().toString().trim();
+        String description =
+                etDescription.getText().toString().trim();
 
         String id = dataBaseReference.push().getKey();
 
@@ -182,13 +204,19 @@ public class RequestActivity extends AppCompatActivity {
                 imageUrl
         );
 
-        dataBaseReference.child(id).setValue(request)
+        dataBaseReference.child(id)
+                .setValue(request)
+
                 .addOnSuccessListener(unused -> {
 
                     progressBar.setVisibility(View.GONE);
                     btnSubmitRequest.setEnabled(true);
 
-                    Toast.makeText(this, "Request Uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            "Request Uploaded",
+                            Toast.LENGTH_SHORT)
+                            .show();
+
                     clearFields();
                 })
                 .addOnFailureListener(e -> {
@@ -196,7 +224,10 @@ public class RequestActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     btnSubmitRequest.setEnabled(true);
 
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,
+                            e.getMessage(),
+                            Toast.LENGTH_SHORT)
+                            .show();
                 });
     }
 
