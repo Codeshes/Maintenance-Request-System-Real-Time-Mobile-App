@@ -6,6 +6,7 @@ public class HelperClassLoginSignup {
     private String username;
     private String password;
     private String status;
+    private String role;
 
 
     public HelperClassLoginSignup(String name, String email, String username, String password) {
@@ -13,14 +14,16 @@ public class HelperClassLoginSignup {
         this.email = email;
         this.username = username;
         this.password = password;
+
     }
 
-    public HelperClassLoginSignup(String name, String email, String username, String password, String status) {
+    public HelperClassLoginSignup(String name, String email, String username, String password, String status, String role) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.status = status;
+        this.role = role;
     }
 
     public String getName() {
@@ -61,5 +64,13 @@ public class HelperClassLoginSignup {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
