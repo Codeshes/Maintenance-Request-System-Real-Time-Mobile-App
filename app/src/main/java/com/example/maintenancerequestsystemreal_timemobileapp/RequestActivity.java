@@ -28,9 +28,6 @@ import com.cloudinary.android.callback.UploadCallback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RequestActivity extends AppCompatActivity {
 
     Toolbar tb;
@@ -102,7 +99,11 @@ public class RequestActivity extends AppCompatActivity {
 
         btnUploadImage.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
 
-        btnSubmitRequest.setOnClickListener(v -> validateAndUpload());
+        btnSubmitRequest.setOnClickListener(v -> {
+
+            validateAndUpload();
+        });
+
     }
 
     private void validateAndUpload() {
@@ -142,6 +143,7 @@ public class RequestActivity extends AppCompatActivity {
 
     private void uploadToCloudinary() {
 
+        btnSubmitRequest.setText("");
         progressBar.setVisibility(View.VISIBLE);
         btnSubmitRequest.setEnabled(false);
 
@@ -173,6 +175,7 @@ public class RequestActivity extends AppCompatActivity {
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
 
+                        btnSubmitRequest.setText("Submit Request");
                         progressBar.setVisibility(View.GONE);
                         btnSubmitRequest.setEnabled(true);
 
@@ -212,6 +215,7 @@ public class RequestActivity extends AppCompatActivity {
 
                 .addOnSuccessListener(unused -> {
 
+                    btnSubmitRequest.setText("Submit Request");
                     progressBar.setVisibility(View.GONE);
                     btnSubmitRequest.setEnabled(true);
 
@@ -224,6 +228,7 @@ public class RequestActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> {
 
+                    btnSubmitRequest.setText("Submit Request");
                     progressBar.setVisibility(View.GONE);
                     btnSubmitRequest.setEnabled(true);
 
@@ -235,9 +240,13 @@ public class RequestActivity extends AppCompatActivity {
     }
 
     private void initCloudinary() {
-        Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "dlytd1gjp");
-        MediaManager.init(this, config);
+        try {
+            Map<String, String> config = new HashMap<>();
+            config.put("cloud_name", "dlytd1gjp");
+            MediaManager.init(this, config);
+        } catch (IllegalStateException e) {
+            // MM Already initialized
+        }
     }
 
     private void clearFields() {
