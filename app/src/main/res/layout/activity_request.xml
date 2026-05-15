@@ -55,6 +55,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRequestTitle"
                     android:layout_width="match_parent"
+                    android:inputType="text"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,12 +63,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Room / Location"
+                android:inputType="text"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginBottom="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLocation"
                     android:layout_width="match_parent"
+                    android:inputType="text"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Description of the issue"
+                android:inputType="text"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginBottom="24dp">
 
@@ -84,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="top"
                     android:lines="4"
-                    android:background="@drawable/custom_edittext_requestactivity"/>
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -127,24 +131,30 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:visibility="gone"
-                android:indeterminateTint="@color/colorPrimary"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSubmitRequest"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Submit Request"
-                android:padding="14dp"
-                app:cornerRadius="12dp"
-                android:backgroundTint="@color/colorPrimary"/>
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmitRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Submit Request"
+                    android:padding="14dp"
+                    app:cornerRadius="12dp"
+                    android:backgroundTint="@color/colorPrimary"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/white"/>
+
+            </FrameLayout>
 
         </LinearLayout>
     </ScrollView>
