@@ -5,6 +5,7 @@ public class HelperClassRequest {
     private String location;
     private String description;
     private String imageUrl;
+    private String status = "Pending";
 
     public HelperClassRequest() {
         // Empty constructor for firebase
@@ -16,6 +17,14 @@ public class HelperClassRequest {
         this.location = location;
         this.description = description;
         this.imageUrl = imageUrl;
+    }
+
+    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl, String status) {
+        this.issueTitle = issueTitle;
+        this.location = location;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.status = status;
     }
 
     public String getIssueTitle() {
@@ -48,5 +57,13 @@ public class HelperClassRequest {
 
     public void setIssueImage(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

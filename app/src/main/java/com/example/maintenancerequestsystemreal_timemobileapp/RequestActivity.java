@@ -207,7 +207,8 @@ public class RequestActivity extends AppCompatActivity {
                 title,
                 location,
                 description,
-                imageUrl
+                imageUrl,
+                "Pending"
         );
 
         dataBaseReference.child(id)

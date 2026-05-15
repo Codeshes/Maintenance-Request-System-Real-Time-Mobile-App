@@ -5,6 +5,7 @@ public class HelperClassLoginSignup {
     private String email;
     private String username;
     private String password;
+    private String status;
 
 
     public HelperClassLoginSignup(String name, String email, String username, String password) {

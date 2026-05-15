@@ -87,9 +87,10 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/tvTotalCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="0"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
@@ -122,9 +123,10 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/tvPendingCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4"
+                    android:text="0"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
@@ -156,9 +158,10 @@
                 android:layout_gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/tvCompletedCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text="0"
                     android:textColor="#FFF"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
