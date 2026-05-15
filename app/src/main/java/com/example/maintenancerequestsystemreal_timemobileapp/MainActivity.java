@@ -21,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     TextView totalRequestText, pendingRequestText, completedRequestText;
-    DatabaseReference requestsReference;
     Button submitRequest;
     String loggedInUsername;
 
