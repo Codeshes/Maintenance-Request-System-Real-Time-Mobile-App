@@ -59,7 +59,7 @@ public class SignUpPageActivity extends AppCompatActivity {
                 signupPassword.requestFocus();
             } else {
                 HelperClassLoginSignup helperClass = new HelperClassLoginSignup(name, email, username, password);
-                reference.child(name).setValue(helperClass);
+                reference.child(username).setValue(helperClass);
                 Toast.makeText(this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignUpPageActivity.this, LoginPageActivity.class);
                 startActivity(intent);

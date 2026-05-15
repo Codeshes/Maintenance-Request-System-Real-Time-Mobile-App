@@ -12,15 +12,14 @@ import android.widget.Toast;
 import java.util.Map;
 import java.util.HashMap;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -34,21 +33,20 @@ public class RequestActivity extends AppCompatActivity {
     EditText etRequestTitle, etLocation, etDescription;
     Button btnSubmitRequest, btnUploadImage;
     DatabaseReference dataBaseReference;
-
     ImageView imgPreview;
     CardView cardImagePreview;
-
     ProgressBar progressBar;
-
     Uri imageUri;
+    String loggedInUsername;
 
     ActivityResultLauncher<String> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_request);
+
+        loggedInUsername = getIntent().getStringExtra("username");
 
         View mainView = findViewById(R.id.main);
         if (mainView != null) {
@@ -65,76 +63,41 @@ public class RequestActivity extends AppCompatActivity {
         etRequestTitle = findViewById(R.id.etRequestTitle);
         etLocation = findViewById(R.id.etLocation);
         etDescription = findViewById(R.id.etDescription);
-
         btnSubmitRequest = findViewById(R.id.btnSubmitRequest);
         btnUploadImage = findViewById(R.id.btnUploadImage);
-
         imgPreview = findViewById(R.id.imgPreview);
         cardImagePreview = findViewById(R.id.cardImagePreview);
-
         progressBar = findViewById(R.id.progressBar);
 
         initCloudinary();
-
-        dataBaseReference =
-                FirebaseDatabase.
-                        getInstance()
-                        .getReference("requests");
+        dataBaseReference = FirebaseDatabase.getInstance().getReference("requests");
 
         imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts
-                        .GetContent(),
+                new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
                         imageUri = uri;
                         imgPreview.setImageURI(uri);
                         cardImagePreview.setVisibility(View.VISIBLE);
-                        Toast.makeText(this,
-                                        "Image Selected",
-                                        Toast.LENGTH_SHORT)
-                                .show();
+                        Toast.makeText(this, "Image Selected", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
 
         btnUploadImage.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
-
-        btnSubmitRequest.setOnClickListener(v -> {
-
-            validateAndUpload();
-        });
-
+        btnSubmitRequest.setOnClickListener(v -> validateAndUpload());
     }
 
     private void validateAndUpload() {
+        String title = etRequestTitle.getText().toString().trim();
+        String location = etLocation.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
 
-        String title =
-                etRequestTitle.getText().toString().trim();
-        String location =
-                etLocation.getText().toString().trim();
-        String description =
-                etDescription.getText().toString().trim();
-
-        if (title.isEmpty()) {
-            etRequestTitle.setError("Required");
-            return;
-        }
-
-        if (location.isEmpty()) {
-            etLocation.setError("Required");
-            return;
-        }
-
-        if (description.isEmpty()) {
-            etDescription.setError("Required");
-            return;
-        }
-
+        if (title.isEmpty()) { etRequestTitle.setError("Required"); return; }
+        if (location.isEmpty()) { etLocation.setError("Required"); return; }
+        if (description.isEmpty()) { etDescription.setError("Required"); return; }
         if (imageUri == null) {
-            Toast.makeText(this,
-                            "Select image",
-                            Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, "Select image", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -142,7 +105,6 @@ public class RequestActivity extends AppCompatActivity {
     }
 
     private void uploadToCloudinary() {
-
         btnSubmitRequest.setText("");
         progressBar.setVisibility(View.VISIBLE);
         btnSubmitRequest.setEnabled(false);
@@ -150,56 +112,31 @@ public class RequestActivity extends AppCompatActivity {
         MediaManager.get().upload(imageUri)
                 .unsigned("maintenancepreset")
                 .callback(new UploadCallback() {
-
-                    @Override
-                    public void onStart(String requestId) {
-
-                    }
-
-                    @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-
-                    }
+                    @Override public void onStart(String requestId) {}
+                    @Override public void onProgress(String requestId, long bytes, long totalBytes) {}
 
                     @Override
                     public void onSuccess(String requestId, Map resultData) {
-
-                        String imageUrl =
-                                resultData
-                                        .get("secure_url")
-                                        .toString();
-
+                        String imageUrl = resultData.get("secure_url").toString();
                         saveToFirebase(imageUrl);
                     }
 
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
-
                         btnSubmitRequest.setText("Submit Request");
                         progressBar.setVisibility(View.GONE);
                         btnSubmitRequest.setEnabled(true);
-
-                        Toast.makeText(RequestActivity.this,
-                                error.getDescription(),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RequestActivity.this, error.getDescription(), Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onReschedule(String requestId, ErrorInfo error) {
-
-                    }
+                    @Override public void onReschedule(String requestId, ErrorInfo error) {}
                 })
                 .dispatch();
     }
 
     private void saveToFirebase(String imageUrl) {
-
-        String title =
-                etRequestTitle.getText().toString().trim();
-        String location =
-                etLocation.getText().toString().trim();
-        String description =
-                etDescription.getText().toString().trim();
+        String title = etRequestTitle.getText().toString().trim();
+        String location = etLocation.getText().toString().trim();
+        String description = etDescription.getText().toString().trim();
 
         String id = dataBaseReference.push().getKey();
 
@@ -207,36 +144,27 @@ public class RequestActivity extends AppCompatActivity {
                 title,
                 location,
                 description,
-                imageUrl
+                imageUrl,
+                "Pending",
+                loggedInUsername
         );
 
-        dataBaseReference.child(id)
-                .setValue(request)
-
-                .addOnSuccessListener(unused -> {
-
-                    btnSubmitRequest.setText("Submit Request");
-                    progressBar.setVisibility(View.GONE);
-                    btnSubmitRequest.setEnabled(true);
-
-                    Toast.makeText(this,
-                                    "Request Uploaded",
-                                    Toast.LENGTH_SHORT)
-                            .show();
-
-                    clearFields();
-                })
-                .addOnFailureListener(e -> {
-
-                    btnSubmitRequest.setText("Submit Request");
-                    progressBar.setVisibility(View.GONE);
-                    btnSubmitRequest.setEnabled(true);
-
-                    Toast.makeText(this,
-                                    e.getMessage(),
-                                    Toast.LENGTH_SHORT)
-                            .show();
-                });
+        if (id != null) {
+            dataBaseReference.child(id).setValue(request)
+                    .addOnSuccessListener(unused -> {
+                        btnSubmitRequest.setText("Submit Request");
+                        progressBar.setVisibility(View.GONE);
+                        btnSubmitRequest.setEnabled(true);
+                        Toast.makeText(this, "Request Uploaded", Toast.LENGTH_SHORT).show();
+                        clearFields();
+                    })
+                    .addOnFailureListener(e -> {
+                        btnSubmitRequest.setText("Submit Request");
+                        progressBar.setVisibility(View.GONE);
+                        btnSubmitRequest.setEnabled(true);
+                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 
     private void initCloudinary() {

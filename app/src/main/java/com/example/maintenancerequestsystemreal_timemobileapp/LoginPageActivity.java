@@ -94,10 +94,12 @@ public class LoginPageActivity extends AppCompatActivity {
                     login_userName.setError(null);
                     String passwordFromDb = snapshot.child(userName).child("password").getValue(String.class);
 
-                    if (!Objects.equals(passwordFromDb, password)) {
+                    if (Objects.equals(passwordFromDb, password)) {
                         login_userName.setError(null);
-                        Intent intent = new Intent (LoginPageActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
+                        intent.putExtra("username", userName);
                         startActivity(intent);
+                        finish();
                     } else {
                         login_userPassword.setError("Invalid Credentials");
                         login_userPassword.requestFocus();
