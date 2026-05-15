@@ -93,8 +93,8 @@ public class RequestActivity extends AppCompatActivity {
                         imgPreview.setImageURI(uri);
                         cardImagePreview.setVisibility(View.VISIBLE);
                         Toast.makeText(this,
-                                "Image Selected",
-                                Toast.LENGTH_SHORT)
+                                        "Image Selected",
+                                        Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }
@@ -131,8 +131,8 @@ public class RequestActivity extends AppCompatActivity {
 
         if (imageUri == null) {
             Toast.makeText(this,
-                    "Select image",
-                    Toast.LENGTH_SHORT)
+                            "Select image",
+                            Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -146,7 +146,7 @@ public class RequestActivity extends AppCompatActivity {
         btnSubmitRequest.setEnabled(false);
 
         MediaManager.get().upload(imageUri)
-                .unsigned("IMAGE_STORAGE_CLOUDINARY")
+                .unsigned("maintenancepreset")
                 .callback(new UploadCallback() {
 
                     @Override
@@ -216,8 +216,8 @@ public class RequestActivity extends AppCompatActivity {
                     btnSubmitRequest.setEnabled(true);
 
                     Toast.makeText(this,
-                            "Request Uploaded",
-                            Toast.LENGTH_SHORT)
+                                    "Request Uploaded",
+                                    Toast.LENGTH_SHORT)
                             .show();
 
                     clearFields();
@@ -228,14 +228,14 @@ public class RequestActivity extends AppCompatActivity {
                     btnSubmitRequest.setEnabled(true);
 
                     Toast.makeText(this,
-                            e.getMessage(),
-                            Toast.LENGTH_SHORT)
+                                    e.getMessage(),
+                                    Toast.LENGTH_SHORT)
                             .show();
                 });
     }
 
     private void initCloudinary() {
-        Map config = new HashMap();
+        Map<String, String> config = new HashMap<>();
         config.put("cloud_name", "dlytd1gjp");
         MediaManager.init(this, config);
     }
