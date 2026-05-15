@@ -15,6 +15,14 @@ public class HelperClassLoginSignup {
         this.password = password;
     }
 
+    public HelperClassLoginSignup(String name, String email, String username, String password, String status) {
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.status = status;
+    }
+
     public String getName() {
         return name;
     }
@@ -45,5 +53,13 @@ public class HelperClassLoginSignup {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

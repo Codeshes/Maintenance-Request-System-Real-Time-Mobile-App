@@ -6,25 +6,28 @@ public class HelperClassRequest {
     private String description;
     private String imageUrl;
     private String status = "Pending";
+    private String username;
 
     public HelperClassRequest() {
         // Empty constructor for firebase
     }
 
 
-    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl) {
+    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl, String username) {
         this.issueTitle = issueTitle;
         this.location = location;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.username = username;
     }
 
-    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl, String status) {
+    public HelperClassRequest(String issueTitle, String location, String description, String imageUrl, String status, String username) {
         this.issueTitle = issueTitle;
         this.location = location;
         this.description = description;
         this.imageUrl = imageUrl;
         this.status = status;
+        this.username = username;
     }
 
     public String getIssueTitle() {
@@ -65,5 +68,13 @@ public class HelperClassRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
